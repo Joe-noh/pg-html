@@ -53,6 +53,22 @@
         display: block;
       }
 
+      #alert {
+        display: none;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        background-color: green;
+      }
+
+      #alert > a {
+        margin: 20px 10px;
+        font-size: 14pt;
+        color: white;
+        display: block;
+        width: 100%;
+      }
+
       .copylight {
         font-size: 11pt;
         position: absolute;
@@ -63,6 +79,10 @@
     </style>
   </head>
   <body>
+    <div id="alert">
+      <a href="https://suzuri.jp/Joe-noh"><p>Thank you. You can find T-shirt on suzuri.jp</p></a>
+    </div>
+
     <form>
       <input id="file-input" type="file" accept="image/*;capture=camera" required>
       <label id="file-label" for="file-input"></label>
@@ -86,10 +106,20 @@
 
         if (!image) { return; }
 
+        var headers = {
+          'content-type': 'multipart/form-data'
+        };
         var data = new FormData();
         data.append("image[file]", image, image.name);
 
-        axios.post(url, data, {headers: {'content-type': 'multipart/form-data'}});
+        axios.post(url, data, {headers: headers}).then(function() {
+          var alert = document.getElementById("alert");
+          alert.style.display = "block";
+
+          setTimeout(function() {
+            alert.style.display = "none";
+          }, 5000);
+        });
       });
     </script>
   </body>
