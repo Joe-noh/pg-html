@@ -5,12 +5,126 @@
     <meta name="description" content="Take a picture, upload it, and get cool T-shirt">
 
     <title>Paint Graphics</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
+    <style media="all">
+      body, html {
+        height: 100%;
+        width: 100%;
+      }
+
+      #file-input {
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: -1;
+      }
+
+      #file-input+#file-label {
+        background-image: url(./camera.svg);
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center center;
+        min-width: 50%;
+        max-width: 70%;
+        height: 40%;
+        margin: 15% auto;
+        display: block;
+        cursor: pointer;
+      }
+
+      #file-input:focus+#file-label {
+        outline: 1px dotted #000;
+        outline: -webkit-focus-ring-color auto 5px;
+      }
+
+      #submit-button {
+        border: none;
+        border-bottom: solid 8px #030303;
+        width: 50%;
+        height: 80px;
+        line-height: 72px;
+        font-size: 20pt;
+        margin: 0 auto;
+        background-color: #444;
+        color: white;
+        display: block;
+        cursor: pointer;
+      }
+
+      #alert {
+        display: none;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        background-color: #444;
+      }
+
+      #alert > a {
+        margin: 20px 10px;
+        font-size: 14pt;
+        color: white;
+        display: block;
+        width: 100%;
+      }
+
+      .copylight {
+        font-size: 11pt;
+        position: absolute;
+        bottom: 8px;
+        text-align: center;
+        width: 100%;
+      }
+    </style>
   </head>
   <body>
+    <div id="alert">
+      <a href="https://suzuri.jp/Joe-noh"><p>Thank you. You can find T-shirt on suzuri.jp</p></a>
+    </div>
+
     <form>
-      <input id="file-input" type="file" required>
+      <input id="file-input" type="file" accept="image/*;capture=camera" required>
+      <label id="file-label" for="file-input"></label>
+      <button id="submit-button" type="submit">UPLOAD</button>
     </form>
 
+    <div class="copylight">
+      Icons made by <a href="http://www.flaticon.com/authors/gregor-cresnar" title="Gregor Cresnar">Gregor Cresnar</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.2/axios.min.js"></script>
+    <script type="text/javascript">
+      var url = "http://localhost:3000/images";
+      var button = document.getElementById("submit-button");
+
+      button.addEventListener("click", function(e) {
+        e.preventDefault();
+
+        var input = document.getElementById("file-input");
+        var image = input.files[0];
+
+        if (!image) {
+          input.click();
+          return;
+        }
+
+        var headers = {
+          'content-type': 'multipart/form-data'
+        };
+        var data = new FormData();
+        data.append("image[file]", image, image.name);
+
+        axios.post(url, data, {headers: headers}).then(function() {
+          var alert = document.getElementById("alert");
+          alert.style.display = "block";
+
+          setTimeout(function() {
+            alert.style.display = "none";
+          }, 5000);
+        });
+      });
+    </script>
   </body>
 </html>
