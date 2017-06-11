@@ -42,15 +42,16 @@
 
       #submit-button {
         border: none;
-        border-bottom: solid 8px #229033;
+        border-bottom: solid 8px #030303;
         width: 50%;
         height: 80px;
         line-height: 72px;
         font-size: 20pt;
         margin: 0 auto;
-        background-color: #02b023;
+        background-color: #444;
         color: white;
         display: block;
+        cursor: pointer;
       }
 
       #alert {
@@ -58,7 +59,7 @@
         position: absolute;
         top: 0;
         width: 100%;
-        background-color: green;
+        background-color: #444;
       }
 
       #alert > a {
@@ -104,7 +105,10 @@
         var input = document.getElementById("file-input");
         var image = input.files[0];
 
-        if (!image) { return; }
+        if (!image) {
+          input.click();
+          return;
+        }
 
         var headers = {
           'content-type': 'multipart/form-data'
