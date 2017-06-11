@@ -5,12 +5,73 @@
     <meta name="description" content="Take a picture, upload it, and get cool T-shirt">
 
     <title>Paint Graphics</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
+    <style media="all">
+      body, html {
+        height: 100%;
+        width: 100%;
+      }
+
+      #file-input {
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: -1;
+      }
+
+      #file-input+#file-label {
+        background-image: url(./camera.svg);
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center center;
+        min-width: 50%;
+        max-width: 70%;
+        height: 40%;
+        margin: 15% auto;
+        display: block;
+        cursor: pointer;
+      }
+
+      #file-input:focus+#file-label {
+        outline: 1px dotted #000;
+        outline: -webkit-focus-ring-color auto 5px;
+      }
+
+      #submit-button {
+        border: none;
+        border-bottom: solid 8px #229033;
+        width: 50%;
+        height: 80px;
+        line-height: 72px;
+        font-size: 20pt;
+        margin: 0 auto;
+        background-color: #02b023;
+        color: white;
+        display: block;
+      }
+
+      .copylight {
+        font-size: 11pt;
+        position: absolute;
+        bottom: 8px;
+        text-align: center;
+        width: 100%;
+      }
+    </style>
   </head>
   <body>
     <form>
-      <input id="file-input" type="file"  accept="image/*;capture=camera" required>
+      <input id="file-input" type="file" accept="image/*;capture=camera" required>
+      <label id="file-label" for="file-input"></label>
       <button id="submit-button" type="submit">UPLOAD</button>
     </form>
+
+    <div class="copylight">
+      Icons made by <a href="http://www.flaticon.com/authors/gregor-cresnar" title="Gregor Cresnar">Gregor Cresnar</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.2/axios.min.js"></script>
     <script type="text/javascript">
