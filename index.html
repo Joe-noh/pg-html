@@ -8,9 +8,28 @@
   </head>
   <body>
     <form>
-      <input id="file-input" type="file" required>
+      <input id="file-input" type="file"  accept="image/*;capture=camera" required>
+      <button id="submit-button" type="submit">UPLOAD</button>
     </form>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.2/axios.min.js"></script>
+    <script type="text/javascript">
+      var url = "http://localhost:3000/images";
+      var button = document.getElementById("submit-button");
+
+      button.addEventListener("click", function(e) {
+        e.preventDefault();
+
+        var input = document.getElementById("file-input");
+        var image = input.files[0];
+
+        if (!image) { return; }
+
+        var data = new FormData();
+        data.append("image[file]", image, image.name);
+
+        axios.post(url, data, {headers: {'content-type': 'multipart/form-data'}});
+      });
+    </script>
   </body>
 </html>
